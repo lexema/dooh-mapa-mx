@@ -62,6 +62,13 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:#1e293b;colo
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:#475569;border-radius:4px}
 @media(max-width:640px){.panel{width:calc(100vw - 24px);max-height:50vh}}
+
+.zone-toggle{display:flex;align-items:center;gap:8px;margin-bottom:6px;cursor:pointer}
+.zone-toggle input{accent-color:#818cf8;width:14px;height:14px;cursor:pointer}
+.zone-toggle label{font-size:11px;color:#94a3b8;cursor:pointer;font-weight:600}
+.zone-legend{display:flex;gap:12px;margin-top:4px}
+.zone-legend-item{display:flex;align-items:center;gap:4px;font-size:10px;color:#7c8da4}
+.zone-legend-box{width:14px;height:10px;border-radius:2px;opacity:0.7}
 </style>
 </head>
 <body>
@@ -88,6 +95,19 @@ body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:#1e293b;colo
     <div id="venueFilters" class="filter-group"></div>
   </div>
 
+
+  <div class="section">
+    <div class="section-title">Zonas de negocio</div>
+    <div class="zone-toggle">
+      <input type="checkbox" id="zoneToggle" checked>
+      <label for="zoneToggle">Mostrar densidad comercial</label>
+    </div>
+    <div class="zone-legend">
+      <div class="zone-legend-item"><div class="zone-legend-box" style="background:#ef4444"></div>Alta</div>
+      <div class="zone-legend-item"><div class="zone-legend-box" style="background:#f59e0b"></div>Media</div>
+      <div class="zone-legend-item"><div class="zone-legend-box" style="background:#3b82f6"></div>Baja</div>
+    </div>
+  </div>
   <div class="section" id="legendSection">
     <div class="section-title">Leyenda</div>
     <div id="legend"></div>
@@ -339,6 +359,95 @@ document.getElementById('modeToggle').querySelectorAll('.mode-btn').forEach(btn 
     buildMarkers();
   });
 });
+
+
+// === BUSINESS DENSITY ZONES ===
+const ZONES = [{"name":"Valle Oriente","city":"Monterrey","city_short":"MTY","polygon":[[25.59875,-100.26427],[25.59827,-100.26403],[25.59827,-100.26511],[25.59875,-100.26427]],"n_points":3,"total_screens":3,"total_imp":16689,"area_km2":0.01,"density":300.0,"level":"alta","centroid":[25.59843,-100.26447],"color":"#fb923c"},{"name":"Coyoac\u00e1n","city":"Mexico City","city_short":"CDMX","polygon":[[19.30812,-99.19412],[19.30367,-99.18837],[19.30404,-99.19053],[19.30428,-99.19088],[19.30812,-99.19412]],"n_points":4,"total_screens":4,"total_imp":6217,"area_km2":0.03,"density":134.5,"level":"alta","centroid":[19.30503,-99.19098],"color":"#818cf8"},{"name":"Cumbres","city":"Monterrey","city_short":"MTY","polygon":[[25.71583,-100.38057],[25.71163,-100.37613],[25.71403,-100.38021],[25.71583,-100.38057]],"n_points":3,"total_screens":7,"total_imp":34670,"area_km2":0.02,"density":126.4,"level":"alta","centroid":[25.71383,-100.37897],"color":"#fb923c"},{"name":"Mixcoac / Insurgentes Sur","city":"Mexico City","city_short":"CDMX","polygon":[[19.38797,-99.24985],[19.38581,-99.25297],[19.38665,-99.25357],[19.39061,-99.25273],[19.38965,-99.25069],[19.38797,-99.24985]],"n_points":6,"total_screens":10,"total_imp":227921,"area_km2":0.07,"density":81.3,"level":"alta","centroid":[19.38814,-99.25196],"color":"#818cf8"},{"name":"Bellas Artes","city":"Mexico City","city_short":"CDMX","polygon":[[19.4466,-99.15411],[19.4478,-99.15255],[19.44504,-99.14535],[19.44444,-99.14427],[19.44624,-99.15291],[19.4466,-99.15411]],"n_points":5,"total_screens":5,"total_imp":2241,"area_km2":0.06,"density":78.2,"level":"alta","centroid":[19.44602,-99.14984],"color":"#818cf8"},{"name":"Cumbres","city":"Monterrey","city_short":"MTY","polygon":[[25.73251,-100.39511],[25.73179,-100.39523],[25.73359,-100.40051],[25.73383,-100.40099],[25.73947,-100.40747],[25.73251,-100.39511]],"n_points":8,"total_screens":10,"total_imp":78351,"area_km2":0.11,"density":74.3,"level":"alta","centroid":[25.73424,-100.39986],"color":"#fb923c"},{"name":"San Nicol\u00e1s","city":"Monterrey","city_short":"MTY","polygon":[[25.72267,-100.3193],[25.72639,-100.32314],[25.72975,-100.32086],[25.73023,-100.31954],[25.72327,-100.31678],[25.72267,-100.3193]],"n_points":8,"total_screens":11,"total_imp":108457,"area_km2":0.19,"density":43.1,"level":"alta","centroid":[25.72646,-100.31992],"color":"#fb923c"},{"name":"Tepito / Lagunilla","city":"Mexico City","city_short":"CDMX","polygon":[[19.44778,-99.09704],[19.45115,-99.1034],[19.45235,-99.09333],[19.45223,-99.09333],[19.44778,-99.09704]],"n_points":6,"total_screens":7,"total_imp":139324,"area_km2":0.15,"density":39.1,"level":"alta","centroid":[19.45087,-99.09678],"color":"#818cf8"},{"name":"N\u00e1poles","city":"Mexico City","city_short":"CDMX","polygon":[[19.31648,-99.20898],[19.32104,-99.2139],[19.3292,-99.21931],[19.32608,-99.2133],[19.31648,-99.20898]],"n_points":7,"total_screens":8,"total_imp":154493,"area_km2":0.22,"density":32.1,"level":"alta","centroid":[19.3232,-99.21388],"color":"#818cf8"},{"name":"Valle Oriente","city":"Monterrey","city_short":"MTY","polygon":[[25.62451,-100.27571],[25.63171,-100.28015],[25.62859,-100.27223],[25.62728,-100.27223],[25.62451,-100.27571]],"n_points":4,"total_screens":5,"total_imp":163916,"area_km2":0.17,"density":22.9,"level":"media","centroid":[25.62803,-100.27508],"color":"#fb923c"},{"name":"Del Valle","city":"Mexico City","city_short":"CDMX","polygon":[[19.37718,-99.16027],[19.39086,-99.16423],[19.38006,-99.15319],[19.37718,-99.16027]],"n_points":8,"total_screens":12,"total_imp":370647,"area_km2":0.4,"density":20.2,"level":"media","centroid":[19.3827,-99.15923],"color":"#818cf8"},{"name":"Santa Fe","city":"Mexico City","city_short":"CDMX","polygon":[[19.36129,-99.28188],[19.36909,-99.26172],[19.36333,-99.264],[19.35877,-99.26784],[19.35145,-99.27456],[19.35325,-99.2772],[19.36129,-99.28188]],"n_points":22,"total_screens":30,"total_imp":331042,"area_km2":1.12,"density":19.7,"level":"media","centroid":[19.35953,-99.2712],"color":"#818cf8"},{"name":"Condesa / Roma","city":"Mexico City","city_short":"CDMX","polygon":[[19.38736,-99.15384],[19.39672,-99.15648],[19.39132,-99.15048],[19.38736,-99.15384]],"n_points":3,"total_screens":4,"total_imp":4531,"area_km2":0.15,"density":19.6,"level":"media","centroid":[19.3918,-99.1536],"color":"#818cf8"},{"name":"Mixcoac / Insurgentes Sur","city":"Mexico City","city_short":"CDMX","polygon":[[19.40573,-99.23434],[19.40225,-99.24573],[19.40789,-99.24093],[19.40873,-99.23949],[19.40573,-99.23434]],"n_points":4,"total_screens":5,"total_imp":231386,"area_km2":0.21,"density":19.4,"level":"media","centroid":[19.40615,-99.24012],"color":"#818cf8"},{"name":"Polit\u00e9cnico","city":"Mexico City","city_short":"CDMX","polygon":[[19.50208,-99.14945],[19.48841,-99.14405],[19.49045,-99.14813],[19.49416,-99.15017],[19.50208,-99.14945]],"n_points":4,"total_screens":4,"total_imp":1680,"area_km2":0.23,"density":17.2,"level":"media","centroid":[19.49377,-99.14795],"color":"#818cf8"},{"name":"Cumbres","city":"Monterrey","city_short":"MTY","polygon":[[25.70122,-100.37212],[25.70026,-100.36144],[25.70014,-100.3612],[25.69342,-100.36108],[25.69558,-100.36804],[25.70122,-100.37212]],"n_points":6,"total_screens":12,"total_imp":98950,"area_km2":0.38,"density":15.6,"level":"media","centroid":[25.69812,-100.36478],"color":"#fb923c"},{"name":"San Pedro","city":"Monterrey","city_short":"MTY","polygon":[[25.6293,-100.29933],[25.63817,-100.31565],[25.64861,-100.31541],[25.63002,-100.29981],[25.6293,-100.29933]],"n_points":10,"total_screens":12,"total_imp":22322,"area_km2":0.64,"density":15.6,"level":"media","centroid":[25.63652,-100.30755],"color":"#fb923c"},{"name":"Condesa / Roma","city":"Mexico City","city_short":"CDMX","polygon":[[19.3994,-99.17892],[19.39496,-99.18468],[19.3988,-99.19188],[19.406,-99.19332],[19.40972,-99.19032],[19.3994,-99.17892]],"n_points":12,"total_screens":16,"total_imp":80427,"area_km2":0.81,"density":14.8,"level":"media","centroid":[19.40178,-99.18782],"color":"#818cf8"},{"name":"Condesa / Roma","city":"Mexico City","city_short":"CDMX","polygon":[[19.38957,-99.1778],[19.37877,-99.17193],[19.38105,-99.18021],[19.38561,-99.18357],[19.38957,-99.1778]],"n_points":6,"total_screens":7,"total_imp":137562,"area_km2":0.42,"density":14.2,"level":"media","centroid":[19.38375,-99.17838],"color":"#818cf8"},{"name":"Coyoac\u00e1n","city":"Mexico City","city_short":"CDMX","polygon":[[19.29818,-99.21334],[19.3145,-99.20206],[19.30514,-99.20063],[19.29938,-99.20986],[19.29818,-99.21334]],"n_points":6,"total_screens":8,"total_imp":197685,"area_km2":0.51,"density":11.9,"level":"media","centroid":[19.3043,-99.20647],"color":"#818cf8"},{"name":"Reforma / Ju\u00e1rez","city":"Mexico City","city_short":"CDMX","polygon":[[19.40041,-99.16053],[19.39717,-99.16365],[19.41781,-99.15609],[19.42153,-99.15381],[19.41301,-99.15417],[19.40605,-99.15573],[19.40041,-99.16053]],"n_points":6,"total_screens":8,"total_imp":12697,"area_km2":0.5,"density":11.9,"level":"media","centroid":[19.40933,-99.15733],"color":"#818cf8"},{"name":"Santa Fe","city":"Mexico City","city_short":"CDMX","polygon":[[19.39469,-99.25792],[19.37596,-99.2596],[19.37692,-99.27112],[19.38353,-99.27616],[19.39469,-99.25792]],"n_points":17,"total_screens":27,"total_imp":993073,"area_km2":1.44,"density":11.8,"level":"media","centroid":[19.38278,-99.2662],"color":"#818cf8"},{"name":"Cumbres","city":"Monterrey","city_short":"MTY","polygon":[[25.67111,-100.38069],[25.68671,-100.38045],[25.67699,-100.37577],[25.67111,-100.38069]],"n_points":3,"total_screens":5,"total_imp":76954,"area_km2":0.28,"density":10.9,"level":"media","centroid":[25.67827,-100.37897],"color":"#fb923c"},{"name":"Condesa / Roma","city":"Mexico City","city_short":"CDMX","polygon":[[19.41649,-99.17214],[19.41457,-99.1647],[19.39309,-99.16782],[19.39165,-99.17238],[19.40989,-99.17898],[19.41241,-99.17886],[19.41649,-99.17214]],"n_points":18,"total_screens":24,"total_imp":378586,"area_km2":1.7,"density":10.6,"level":"media","centroid":[19.40635,-99.17248],"color":"#818cf8"},{"name":"Cumbres","city":"Monterrey","city_short":"MTY","polygon":[[25.69629,-100.35117],[25.66545,-100.33953],[25.66845,-100.35465],[25.67361,-100.36725],[25.69629,-100.35117]],"n_points":31,"total_screens":49,"total_imp":222051,"area_km2":2.93,"density":10.6,"level":"media","centroid":[25.67595,-100.35315],"color":"#fb923c"},{"name":"Polanco","city":"Mexico City","city_short":"CDMX","polygon":[[19.42619,-99.15976],[19.41767,-99.17404],[19.42535,-99.20836],[19.42679,-99.21064],[19.43987,-99.21652],[19.44359,-99.21556],[19.44887,-99.18736],[19.43471,-99.16684],[19.42619,-99.15976]],"n_points":68,"total_screens":97,"total_imp":1847572,"area_km2":8.13,"density":8.4,"level":"media","centroid":[19.43287,-99.19239],"color":"#818cf8"},{"name":"N\u00e1poles","city":"Mexico City","city_short":"CDMX","polygon":[[19.35985,-99.1598],[19.33465,-99.1856],[19.33081,-99.20144],[19.32889,-99.21056],[19.32937,-99.2132],[19.33045,-99.21308],[19.38721,-99.1922],[19.37641,-99.17732],[19.36633,-99.16556],[19.35985,-99.1598]],"n_points":88,"total_screens":138,"total_imp":2726292,"area_km2":11.46,"density":7.7,"level":"baja","centroid":[19.34933,-99.19098],"color":"#818cf8"},{"name":"Aeropuerto","city":"Mexico City","city_short":"CDMX","polygon":[[19.4137,-99.0693],[19.40962,-99.08178],[19.42402,-99.09558],[19.4323,-99.09162],[19.43674,-99.08622],[19.4137,-99.0693]],"n_points":17,"total_screens":18,"total_imp":576027,"area_km2":2.54,"density":6.7,"level":"baja","centroid":[19.42328,-99.0849],"color":"#818cf8"},{"name":"Bellas Artes","city":"Mexico City","city_short":"CDMX","polygon":[[19.42572,-99.15057],[19.44384,-99.16437],[19.43832,-99.14013],[19.43292,-99.13041],[19.425,-99.13077],[19.4232,-99.13113],[19.42392,-99.14481],[19.42572,-99.15057]],"n_points":17,"total_screens":34,"total_imp":32603,"area_km2":2.77,"density":6.1,"level":"baja","centroid":[19.43041,-99.14174],"color":"#818cf8"},{"name":"Centro Hist\u00f3rico","city":"Mexico City","city_short":"CDMX","polygon":[[19.42364,-99.12608],[19.44428,-99.12416],[19.44212,-99.11503],[19.42916,-99.11324],[19.42364,-99.12608]],"n_points":8,"total_screens":8,"total_imp":3661,"area_km2":1.35,"density":5.9,"level":"baja","centroid":[19.4348,-99.11962],"color":"#818cf8"},{"name":"San Nicol\u00e1s","city":"Monterrey","city_short":"MTY","polygon":[[25.70188,-100.35084],[25.72613,-100.36632],[25.71269,-100.34076],[25.70321,-100.34448],[25.70188,-100.35084]],"n_points":10,"total_screens":14,"total_imp":56870,"area_km2":1.71,"density":5.8,"level":"baja","centroid":[25.71097,-100.3506],"color":"#fb923c"},{"name":"Zapopan","city":"Guadalajara","city_short":"GDL","polygon":[[20.67471,-103.38856],[20.70783,-103.37584],[20.67651,-103.3636],[20.66451,-103.36864],[20.67075,-103.38736],[20.67471,-103.38856]],"n_points":17,"total_screens":21,"total_imp":165284,"area_km2":4.25,"density":4.0,"level":"baja","centroid":[20.67886,-103.3768],"color":"#34d399"},{"name":"Centro MTY","city":"Monterrey","city_short":"MTY","polygon":[[25.65051,-100.29446],[25.66911,-100.31342],[25.67895,-100.29206],[25.67919,-100.29026],[25.67163,-100.28318],[25.66659,-100.28282],[25.65075,-100.29398],[25.65051,-100.29446]],"n_points":13,"total_screens":14,"total_imp":131445,"area_km2":3.44,"density":3.8,"level":"baja","centroid":[25.66667,-100.29289],"color":"#fb923c"}];
+
+const ZONE_LEVEL_COLORS = {
+  'alta': '#ef4444',
+  'media': '#f59e0b',
+  'baja': '#3b82f6'
+};
+
+const ZONE_LEVEL_OPACITY = {
+  'alta': 0.25,
+  'media': 0.15,
+  'baja': 0.08
+};
+
+let zoneLayer = L.layerGroup().addTo(map);
+let zonesVisible = true;
+
+function buildZones() {
+  zoneLayer.clearLayers();
+  if (!zonesVisible) return;
+
+  ZONES.forEach((z, i) => {
+    // Filter by active city
+    if (activeCity !== 'all' && z.city !== activeCity) return;
+
+    const color = ZONE_LEVEL_COLORS[z.level] || '#3b82f6';
+    const opacity = ZONE_LEVEL_OPACITY[z.level] || 0.1;
+
+    // Draw polygon
+    const latlngs = z.polygon.map(p => [p[0], p[1]]);
+    const poly = L.polygon(latlngs, {
+      color: color,
+      weight: 1.5,
+      opacity: 0.6,
+      fillColor: color,
+      fillOpacity: opacity,
+      dashArray: z.level === 'baja' ? '4 4' : null
+    });
+
+    // Popup with zone info
+    const impFmt = z.total_imp >= 1e6 ? (z.total_imp/1e6).toFixed(1)+'M' : z.total_imp >= 1e3 ? (z.total_imp/1e3).toFixed(1)+'K' : z.total_imp;
+    const levelEmoji = z.level === 'alta' ? '🔴' : z.level === 'media' ? '🟡' : '🔵';
+    poly.bindPopup(`
+      <div style="font-family:Inter,system-ui,sans-serif">
+        <div style="font-size:13px;font-weight:800;color:#f1f5f9;margin-bottom:4px">${z.name}</div>
+        <div class="popup-badge" style="background:${z.color}20;color:${z.color};border:1px solid ${z.color}40">${z.city_short}</div>
+        <div style="margin-top:8px;font-size:11px;color:#94a3b8;line-height:1.8">
+          <div style="display:flex;justify-content:space-between">Densidad <span style="color:${color};font-weight:700">${levelEmoji} ${z.level.toUpperCase()}</span></div>
+          <div style="display:flex;justify-content:space-between">Ubicaciones <span style="color:#e2e8f0;font-weight:700">${z.n_points}</span></div>
+          <div style="display:flex;justify-content:space-between">Pantallas <span style="color:#e2e8f0;font-weight:700">${z.total_screens}</span></div>
+          <div style="display:flex;justify-content:space-between">Impressions <span style="color:#a5b4fc;font-weight:700">${impFmt}</span></div>
+          <div style="display:flex;justify-content:space-between">Área <span style="color:#e2e8f0;font-weight:700">${z.area_km2} km²</span></div>
+          <div style="display:flex;justify-content:space-between">Densidad <span style="color:#e2e8f0;font-weight:700">${z.density} pts/km²</span></div>
+        </div>
+      </div>
+    `, {maxWidth: 250});
+
+    // Label at centroid
+    const labelIcon = L.divIcon({
+      className: '',
+      html: `<div style="font-size:9px;font-weight:700;color:${color};text-shadow:0 0 4px rgba(0,0,0,0.8),0 0 8px rgba(0,0,0,0.6);white-space:nowrap;pointer-events:none;transform:translate(-50%,-50%)">${z.name}</div>`,
+      iconSize: [0, 0]
+    });
+    const label = L.marker(z.centroid, {icon: labelIcon, interactive: false});
+
+    zoneLayer.addLayer(poly);
+    zoneLayer.addLayer(label);
+  });
+}
+
+// Toggle handler
+document.getElementById('zoneToggle').addEventListener('change', function() {
+  zonesVisible = this.checked;
+  buildZones();
+});
+
+
+// Override buildMarkers to also rebuild zones
+const _origBuildMarkers = buildMarkers;
+const _patchedBuild = function() {
+  _origBuildMarkers();
+  buildZones();
+};
+
+// Monkey-patch all references
+buildMarkers = _patchedBuild;
 
 buildCityFilters();
 buildVenueFilters();
